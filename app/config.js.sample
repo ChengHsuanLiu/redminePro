@@ -1,0 +1,9 @@
+export default {
+	// testing only
+	redmine: {
+		host: 'https://redmine.host.com',
+		username: 'USERNAME',
+		password: 'PASSWORD',
+		apiKey: 'API_KEY_HERE'
+	}
+};
