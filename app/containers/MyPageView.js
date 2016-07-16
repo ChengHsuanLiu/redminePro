@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import IssueList from '../components/IssueList.js';
 import ProjectList from '../components/ProjectList.js';
 import TopBar from '../components/TopBar.js';
-import config from '../../config.js';
+import config from '../config.js';
 import Redmine from '../services/redmine';
 
 export default class App extends Component {
@@ -20,7 +20,7 @@ export default class App extends Component {
 	componentDidMount() {
 		let redmine = new Redmine(config.redmine);
 
-		redmine.issues({}).then(({issues}) => {
+		redmine.issues({assigned_to_id: 'me'}).then(({issues}) => {
 			this.setState({issues});
 		});
 	}

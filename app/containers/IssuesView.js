@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import ProjectList from '../components/ProjectList.js';
 import TopBar from '../components/TopBar.js';
-import config from '../../config.js';
+import config from '../config.js';
 import Redmine from '../services/redmine';
 
 export default class App extends Component {

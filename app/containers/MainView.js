@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import MyPageView from './MyPageView.js';
 import IssuesView from './IssuesView.js';
-import config from '../../config.js';
+import config from '../config.js';
 
 export default class MainView extends Component {
 
