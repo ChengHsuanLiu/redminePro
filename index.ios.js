@@ -22,7 +22,7 @@ export default class RedminePro extends Component {
       <Provider store={ store }>
         <App />
       </Provider>
-    );
+      )
   }
 }
 

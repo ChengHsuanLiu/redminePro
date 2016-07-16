@@ -1,7 +1,6 @@
 import * as t from '../constants/ActionTypes';
 
 const initialState = {
-
 };
 
 export default function issues(state = initialState, action) {
