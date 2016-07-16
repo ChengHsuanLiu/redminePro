@@ -1,5 +1,9 @@
 # RedminePro
 
+## Preview
+
+![](doc/images/my_issues.png)
+
 ## Development
 
 ```sh
