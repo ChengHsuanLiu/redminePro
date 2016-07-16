@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Navigator } from 'react-native';
 
-import IssueList from './components/IssueList.js';
-import ProjectList from './components/ProjectList.js';
-import config from '../config.js';
+import MainView from './containers/MainView.js';
+import SingleIssueView from './containers/SingleIssueView.js';
 
 export default class App extends Component {
 
@@ -11,58 +10,51 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      issues: [],
-      projects: []
     };
-  }
-
-  componentDidMount() {
-    ///////////////////////////////////////////////////////////////
-    let hostname = config.hostname;
-    let username = config.username;
-    let password = config.password;
-    let encodedKey = config.apikey;
-
-    fetch(hostname + '/issues.json', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + encodedKey,
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.issues);
-      this.setState({
-        issues: responseJson.issues,
-      })
-    })
-
-    fetch(hostname + '/projects.json', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + encodedKey,
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.projects);
-      this.setState({
-        projects: responseJson.projects,
-      })
-    })
   }
 
   render() {
     return(
       <View style={styles.container}>
-        <IssueList
-          data={this.state.issues}
-         />
-        <ProjectList
-          data={this.state.projects}
-         />
+        <Navigator
+          style={{flex:1}}
+          navigationBar={this._renderNavigationBar()}
+          initialRoute = {{ id: 'MainView' }}
+          configureScene={this._configureScene}
+          renderScene={this._renderScene}
+        />
       </View>
     );
+  }
+
+  _configureScene(route) {
+    switch(route.id) {
+      default:
+        return Navigator.SceneConfigs.PushFromRight;
+    }
+  }
+
+  _renderScene = (route, navigator) => {
+    _navigator = navigator;
+
+    switch(route.id) {
+      case 'MainView':
+        return (
+          <MainView
+            navigator={navigator}  />
+        );
+      case 'SingleIssueView':
+        return (
+          <SingleIssueView
+            navigator={navigator}
+            data={route.data}  />
+        );
+
+    }
+  }
+
+  _renderNavigationBar() {
+    return (<View></View>);
   }
 }
 
@@ -70,6 +62,5 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
   },
 });

@@ -11,7 +11,7 @@ class ProjectListItem extends Component {
 		return(
 			<TouchableOpacity style={styles.projectListItem}
 				onPress={this.props.onItemPress}>
-				<Text>{this.props.data.name}</Text>
+				<Text style={styles.ListText}>{this.props.data.name}</Text>
 			</TouchableOpacity>
 
 			)
@@ -21,7 +21,15 @@ class ProjectListItem extends Component {
 
 const styles = StyleSheet.create({
   projectListItem: {
-
+    borderBottomWidth: 1,
+    borderBottomColor: '#EFEFEF',
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingRight: 8,
+    paddingLeft: 8,
+  },
+  ListText: {
+    fontSize: 16,
   }
 });
 

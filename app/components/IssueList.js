@@ -24,6 +24,7 @@ class IssueList extends Component {
       <View style={styles.container}>
         <ScrollView>
           <ListView
+            navigator={this.props.navigator}
             dataSource={this.state.dataSource.cloneWithRows(this.props.data)}
             renderRow={(issue) => this.renderIssueRow(issue)}
             enableEmptySections={true}
@@ -35,13 +36,25 @@ class IssueList extends Component {
   }
 
   renderIssueRow(issue) {
-    console.log(issue);
     return (
       <IssueListItem
         data={issue}
-        onItemPress={() => console.log('pressed')}
+        onItemPress={() => this.navigateTo('SingleIssueView', issue)}
         />
       )
+  }
+
+  navigateTo(action, data) {
+    console.log('data:', data);
+
+    switch(action) {
+      case 'SingleIssueView':
+        this.props.navigator.push({
+          id: 'SingleIssueView',
+          data: data
+        })
+        break;
+    }
   }
 
   renderListViewHeader() {
