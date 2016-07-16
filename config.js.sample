@@ -1,0 +1,7 @@
+config = {
+	hostname: '',
+	username: '',
+	password: '',
+	apikey: ''
+}
+module.exports = config;
