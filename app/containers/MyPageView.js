@@ -5,56 +5,43 @@ import IssueList from '../components/IssueList.js';
 import ProjectList from '../components/ProjectList.js';
 import TopBar from '../components/TopBar.js';
 import config from '../../config.js';
+import Redmine from '../services/redmine';
 
 export default class App extends Component {
 
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      issues: [],
-    };
-  }
+		this.state = {
+			issues: [],
+		};
+	}
 
-  componentDidMount() {
-    ///////////////////////////////////////////////////////////////
-    let hostname = config.hostname;
-    let username = config.username;
-    let password = config.password;
-    let encodedKey = config.apikey;
+	componentDidMount() {
+		let redmine = new Redmine(config.redmine);
 
-    fetch(hostname + '/issues.json?assigned_to_id=me', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + encodedKey,
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.issues);
-      this.setState({
-        issues: responseJson.issues,
-      })
-    })
-  }
+		redmine.issues({}).then(({issues}) => {
+			this.setState({issues});
+		});
+	}
 
-  render() {
-    return(
-      <View style={styles.container}>
-        <TopBar centerText="My Issues" />
-        <IssueList
-          data={this.state.issues}
-          navigator={this.props.navigator}
-         />
-      </View>
-    );
-  }
+	render() {
+		return(
+			<View style={styles.container}>
+				<TopBar centerText="My Issues" />
+				<IssueList
+					data={this.state.issues}
+					navigator={this.props.navigator}
+				 />
+			</View>
+		);
+	}
 }
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#F5FCFF',
+	},
 });

@@ -4,55 +4,42 @@ import { View, Text, StyleSheet } from 'react-native';
 import ProjectList from '../components/ProjectList.js';
 import TopBar from '../components/TopBar.js';
 import config from '../../config.js';
+import Redmine from '../services/redmine';
 
 export default class App extends Component {
 
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      projects: []
-    };
-  }
+		this.state = {
+			projects: []
+		};
+	}
 
-  componentDidMount() {
-    ///////////////////////////////////////////////////////////////
-    let hostname = config.hostname;
-    let username = config.username;
-    let password = config.password;
-    let encodedKey = config.apikey;
+	componentDidMount() {
+		let redmine = new Redmine(config.redmine);
 
-    fetch(hostname + '/projects.json', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + encodedKey,
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.projects);
-      this.setState({
-        projects: responseJson.projects,
-      })
-    })
-  }
+		redmine.projects({}).then(({projects}) => {
+			this.setState({projects});
+		});
+	}
 
-  render() {
-    return(
-      <View style={styles.container}>
-        <TopBar centerText="Issues" />
-        <ProjectList
-          data={this.state.projects}
-         />
-      </View>
-    );
-  }
+	render() {
+		return(
+			<View style={styles.container}>
+				<TopBar centerText="Issues" />
+				<ProjectList
+					data={this.state.projects}
+				 />
+			</View>
+		);
+	}
 }
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#F5FCFF',
+	},
 });
