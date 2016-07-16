@@ -3,7 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import IssueList from './components/IssueList.js';
 import ProjectList from './components/ProjectList.js';
-import config from '../config.js';
+import config from './config.js';
+import Redmine from './services/redmine';
 
 export default class App extends Component {
 
@@ -17,39 +18,15 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    ///////////////////////////////////////////////////////////////
-    let hostname = config.hostname;
-    let username = config.username;
-    let password = config.password;
-    let encodedKey = config.apikey;
+		var redmine = new Redmine(config.redmine);
 
-    fetch(hostname + '/issues.json', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + encodedKey,
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.issues);
-      this.setState({
-        issues: responseJson.issues,
-      })
-    })
+		redmine.issues({}).then(({issues}) => {
+			this.setState({issues});
+		});
 
-    fetch(hostname + '/projects.json', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Basic ' + encodedKey,
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.projects);
-      this.setState({
-        projects: responseJson.projects,
-      })
-    })
+		redmine.projects({}).then(({projects}) => {
+			this.setState({projects});
+		});
   }
 
   render() {
